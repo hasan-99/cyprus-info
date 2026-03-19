@@ -1,0 +1,12 @@
+{
+  "project": "cyprus-info",
+  "type": "landing-page",
+  "stack": ["html", "css", "javascript"],
+  "deployment": "vercel-static",
+  "languages": ["ar", "en"],
+  "primaryLanguage": "ar",
+  "formBackend": "none",
+  "domain": "tbd",
+  "repo": "https://github.com/hasan-99/cyprus-info.git",
+  "createdAt": "2026-03-19"
+}
