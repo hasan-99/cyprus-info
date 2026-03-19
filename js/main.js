@@ -3,6 +3,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const isTouchDevice = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
   const hasGSAP = typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined';
 
+  // Debounce utility for resize handlers
+  function debounce(fn, ms) {
+    let timer;
+    return function() {
+      clearTimeout(timer);
+      timer = setTimeout(() => fn.apply(this, arguments), ms);
+    };
+  }
+
   // ── Hero Typing Effect ──
   function typeHeroTitle() {
     const heroTitle = document.querySelector('.hero-title');
@@ -483,7 +492,7 @@ document.addEventListener('DOMContentLoaded', () => {
       canvasMouseY = -1000;
     }, { passive: true });
 
-    window.addEventListener('resize', resize, { passive: true });
+    window.addEventListener('resize', debounce(resize, 150), { passive: true });
   }
 
   // ── Language Toggle ──
