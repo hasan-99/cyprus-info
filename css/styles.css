@@ -157,7 +157,7 @@ body.loading { overflow: hidden; }
 
 /* -- Sections -- */
 .section { padding-block: 5rem; position: relative; }
-.section-alt { background: var(--color-bg-alt); }
+.section-alt { background: var(--color-bg-alt); overflow: hidden; }
 
 .section::before {
   content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
@@ -790,6 +790,30 @@ body.loading { overflow: hidden; }
 [dir="rtl"] .tax-watermark { right: auto; left: 5%; }
 
 /* -- Responsive -- */
+
+/* Small mobile (375px) */
+@media (max-width: 480px) {
+  .hero-title { font-size: clamp(1.75rem, 7vw, 2.5rem); }
+  .hero-subtitle { font-size: 0.95rem; }
+  .hero-actions { flex-direction: column; }
+  .hero-actions .btn { width: 100%; text-align: center; }
+  .hero-badge { font-size: 0.8rem; padding: 6px 14px; }
+  .price-tag { font-size: 1.75rem; padding: 12px 20px; }
+  .section { padding-block: 3rem; }
+  .section-title { font-size: clamp(1.4rem, 5vw, 2rem); }
+  .trust-grid { grid-template-columns: 1fr; }
+  .trust-item { gap: 10px; }
+  .faq-question { padding: 14px 16px; font-size: 0.9rem; }
+  .faq-answer p { padding: 0 16px 14px; font-size: 0.9rem; }
+  .container { padding-inline: 1rem; }
+  .tax-watermark { font-size: clamp(5rem, 15vw, 10rem); }
+  .btn { padding: 10px 22px; font-size: 0.9rem; }
+  .btn-lg { padding: 12px 28px; font-size: 1rem; }
+  .timeline-bar { max-width: 100%; }
+  .hero-glow--gold { width: 350px; height: 350px; }
+  .hero-glow--green { width: 300px; height: 300px; }
+}
+
 @media (min-width: 768px) {
   .trust-grid { grid-template-columns: repeat(4, 1fr); }
   .features-grid { grid-template-columns: repeat(2, 1fr); }
