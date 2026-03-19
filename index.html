@@ -244,7 +244,8 @@
     </section>
 
     <!-- 3. Why Cyprus -->
-    <section id="why-cyprus" class="section section-alt">
+    <section id="why-cyprus" class="section section-alt watermark-section">
+      <div class="section-watermark" aria-hidden="true">EU</div>
       <div class="container">
         <h2 class="section-title" data-i18n="why.title">لماذا قبرص؟</h2>
         <p class="section-intro" data-i18n="why.intro">بوابتك العملية إلى السوق الأوروبي. موقع استراتيجي، بيئة ضريبية تنافسية، وإطار قانوني شفاف يجذب رواد الأعمال والشركات الدولية.</p>
@@ -260,7 +261,8 @@
     </section>
 
     <!-- 4. Package -->
-    <section id="package" class="section">
+    <section id="package" class="section watermark-section">
+      <div class="section-watermark" aria-hidden="true">€999</div>
       <div class="container">
         <h2 class="section-title" data-i18n="package.title">ماذا يشمل هذا العرض؟</h2>
         <div class="package-price"><span class="price-tag" data-i18n="package.price">€999 + VAT</span></div>
@@ -320,7 +322,8 @@
     </section>
 
     <!-- 8. Remote -->
-    <section id="remote" class="section">
+    <section id="remote" class="section watermark-section">
+      <div class="section-watermark" aria-hidden="true">REMOTE</div>
       <div class="container">
         <h2 class="section-title" data-i18n="remote.title">بدون سفر. بدون حضور شخصي.</h2>
         <p class="section-intro" data-i18n="remote.intro">كل الإجراءات تتم عن بُعد. أرسل المستندات ونبدأ التأسيس فوراً.</p>
@@ -334,7 +337,8 @@
     </section>
 
     <!-- 9. Timeline -->
-    <section id="timeline" class="section section-alt">
+    <section id="timeline" class="section section-alt watermark-section">
+      <div class="section-watermark" aria-hidden="true">~14</div>
       <div class="container">
         <h2 class="section-title" data-i18n="timeline.title">جاهزة خلال أسبوعين</h2>
         <p class="section-intro" data-i18n="timeline.intro">بعد استلام المعلومات والمستندات المطلوبة، يتم تسجيل الشركة خلال أسبوعين.</p>
@@ -354,7 +358,8 @@
     </section>
 
     <!-- 10. Steps -->
-    <section id="steps" class="section">
+    <section id="steps" class="section watermark-section">
+      <div class="section-watermark" aria-hidden="true">1&#8594;6</div>
       <div class="container">
         <h2 class="section-title" data-i18n="steps.title">خطوات تسجيل الشركة</h2>
         <div class="stepper" id="stepper">
@@ -402,7 +407,8 @@
     </section>
 
     <!-- 13. Audience -->
-    <section id="audience" class="section section-alt">
+    <section id="audience" class="section section-alt watermark-section">
+      <div class="section-watermark section-watermark--left" aria-hidden="true">FOR YOU</div>
       <div class="container">
         <h2 class="section-title" data-i18n="audience.title">مناسب لمن؟</h2>
         <div class="audience-grid" id="audienceGrid">
@@ -515,8 +521,11 @@
   <script src="js/main.js"></script>
   <script type="module">
     import createGlobe from 'https://cdn.jsdelivr.net/npm/cobe@0.6.3/+esm';
-    const canvas = document.getElementById('heroGlobe');
-    if (canvas && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+
+    function initGlobe() {
+      const canvas = document.getElementById('heroGlobe');
+      if (!canvas || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
       let phi = 0;
       let width = 0;
       let pointerDown = null;
@@ -560,7 +569,8 @@
         }
       });
 
-      setTimeout(() => { canvas.style.opacity = '1'; }, 200);
+      // Fade in after a short delay
+      setTimeout(() => { canvas.style.opacity = '1'; }, 300);
 
       canvas.addEventListener('pointerdown', (e) => {
         pointerDown = e.clientX - pointerDelta;
@@ -576,6 +586,22 @@
           currentR = pointerDelta / 200;
         }
       });
+    }
+
+    // Wait for loader to finish before initializing globe
+    const loader = document.getElementById('pageLoader');
+    if (loader) {
+      const observer = new MutationObserver(() => {
+        if (loader.classList.contains('hidden')) {
+          observer.disconnect();
+          initGlobe();
+        }
+      });
+      observer.observe(loader, { attributes: true, attributeFilter: ['class'] });
+      // Fallback if loader already gone or removed
+      if (!document.body.classList.contains('loading')) initGlobe();
+    } else {
+      initGlobe();
     }
   </script>
 </body>
