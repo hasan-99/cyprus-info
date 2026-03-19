@@ -352,15 +352,47 @@ body.loading { overflow: hidden; }
 }
 .hero-section .container { position: relative; z-index: 2; }
 
+/* -- Hero Globe Background -- */
+.hero-globe-wrap {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+.hero-globe-canvas {
+  width: 100%;
+  max-width: 680px;
+  aspect-ratio: 1;
+  opacity: 0;
+  transition: opacity 1s ease;
+  contain: layout paint size;
+  cursor: grab;
+  pointer-events: auto;
+}
+.hero-globe-gradient {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(circle at 50% 50%, transparent 20%, rgba(0,0,0,0.5) 55%, rgba(0,0,0,0.85) 75%),
+    linear-gradient(to bottom, transparent 40%, rgba(0,0,0,0.95) 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+
 .hero-badge {
   display: inline-block; padding: 8px 20px; border-radius: var(--radius-full);
   font-size: 0.9rem; font-weight: 600; margin-bottom: var(--space-md);
   border: 1px solid var(--color-gold-border); color: var(--color-gold);
+  font-family: var(--font-en);
   background-image: linear-gradient(110deg,
     rgba(212, 175, 55, 0.08) 0%, rgba(212, 175, 55, 0.2) 45%,
     rgba(212, 175, 55, 0.08) 55%, rgba(212, 175, 55, 0.08) 100%);
   background-size: 200% 100%; animation: shimmer 3s ease-in-out infinite;
 }
+.hero-badge:empty { display: none; }
 @keyframes shimmer {
   0% { background-position: -200% center; }
   100% { background-position: 200% center; }
@@ -751,6 +783,7 @@ body.loading { overflow: hidden; }
   .hero-badge, .price-tag { animation: none; }
   .hero-glow { animation: none; }
   .hero-canvas { display: none; }
+  .hero-globe-canvas { display: none; }
   .scroll-progress { display: none; }
   .cursor-dot, .cursor-ring { display: none; }
   .btn-accent::before, .btn-primary::before { display: none; }
@@ -824,6 +857,7 @@ body.loading { overflow: hidden; }
   .mobile-menu { width: 100%; }
   .section::before { width: 300px; }
   .section-intro { font-size: 1rem; }
+  .hero-globe-canvas { max-width: 400px; }
 }
 
 /* Mid-range mobile / small tablet (481-767px) */
@@ -859,4 +893,5 @@ body.loading { overflow: hidden; }
   .audience-grid { grid-template-columns: repeat(3, 1fr); }
   .stepper { grid-template-columns: repeat(3, 1fr); }
   .hero-section { padding-block: calc(var(--space-xl) * 1.5); }
+  .hero-globe-canvas { max-width: 750px; }
 }
