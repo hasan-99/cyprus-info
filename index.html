@@ -209,11 +209,10 @@
         <div class="hero-globe-gradient"></div>
       </div>
       <div class="container">
-        <span class="hero-badge" data-i18n="hero.badge">Company Formation</span>
+        <span class="hero-badge" data-i18n="hero.badge"></span>
         <h1 class="hero-title" data-i18n="hero.title">أسّس شركتك الأوروبية من قبرص — €999 + VAT</h1>
         <p class="hero-subtitle" data-i18n="hero.subtitle">شركة مسجّلة قانونياً في الاتحاد الأوروبي خلال أسبوعين. بدون سفر. مع 4 أشهر سكرتارية وعنوان مسجّل مجاناً.</p>
         <div class="hero-actions">
-          <a href="#contact" class="btn btn-accent" data-i18n="hero.cta1">سجّل شركتك</a>
           <a href="#consultation" class="btn btn-secondary" data-i18n="hero.cta2">استشارة مجانية</a>
         </div>
       </div>
@@ -342,18 +341,59 @@
       <div class="container">
         <h2 class="section-title" data-i18n="timeline.title">جاهزة خلال أسبوعين</h2>
         <p class="section-intro" data-i18n="timeline.intro">بعد استلام المعلومات والمستندات المطلوبة، يتم تسجيل الشركة خلال أسبوعين.</p>
-        <p class="section-note" data-i18n="timeline.note">إجراءات التأسيس تتم عبر الجهات المختصة في قبرص ضمن المسار الرسمي المعتاد.</p>
-        <div class="timeline-bar">
-          <div class="timeline-track">
-            <div class="timeline-fill"></div>
-            <div class="timeline-node timeline-node--start"><span>1</span></div>
-            <div class="timeline-node timeline-node--end"><span>14</span></div>
+
+        <div class="tl-visual">
+          <!-- Big number centerpiece -->
+          <div class="tl-hero-number">
+            <span class="tl-number">14</span>
+            <span class="tl-unit" data-i18n="timeline.days_label">يوم عمل</span>
           </div>
-          <div class="timeline-labels">
-            <span data-i18n="timeline.day1">اليوم 1</span>
-            <span data-i18n="timeline.day14">اليوم 14</span>
+
+          <!-- Phase cards -->
+          <div class="tl-phases">
+            <div class="tl-phase">
+              <div class="tl-phase-marker">
+                <span class="tl-phase-day">1–3</span>
+              </div>
+              <div class="tl-phase-content">
+                <h4 data-i18n="timeline.p1.title">المراجعة والتحضير</h4>
+                <p data-i18n="timeline.p1.desc">استلام المستندات، حجز الاسم، وتجهيز الملف القانوني</p>
+              </div>
+            </div>
+            <div class="tl-phase">
+              <div class="tl-phase-marker">
+                <span class="tl-phase-day">4–7</span>
+              </div>
+              <div class="tl-phase-content">
+                <h4 data-i18n="timeline.p2.title">التقديم الرسمي</h4>
+                <p data-i18n="timeline.p2.desc">تقديم مستندات التأسيس للجهات المختصة في قبرص</p>
+              </div>
+            </div>
+            <div class="tl-phase">
+              <div class="tl-phase-marker">
+                <span class="tl-phase-day">8–14</span>
+              </div>
+              <div class="tl-phase-content">
+                <h4 data-i18n="timeline.p3.title">الإصدار والتسليم</h4>
+                <p data-i18n="timeline.p3.desc">صدور الشركة رسمياً واستلام الوثائق الأساسية</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Progress bar -->
+          <div class="tl-progress">
+            <div class="tl-progress-track">
+              <div class="tl-progress-fill"></div>
+              <div class="tl-progress-glow"></div>
+            </div>
+            <div class="tl-progress-labels">
+              <span data-i18n="timeline.day1">اليوم 1</span>
+              <span data-i18n="timeline.day14">اليوم 14</span>
+            </div>
           </div>
         </div>
+
+        <p class="section-note" data-i18n="timeline.note">إجراءات التأسيس تتم عبر الجهات المختصة في قبرص ضمن المسار الرسمي المعتاد.</p>
       </div>
     </section>
 
@@ -363,12 +403,42 @@
       <div class="container">
         <h2 class="section-title" data-i18n="steps.title">خطوات تسجيل الشركة</h2>
         <div class="stepper" id="stepper">
-          <div class="step-card"><div class="step-number">1</div><div class="step-content"><h3 data-i18n="steps.s1.title">إرسال الاسم المقترح</h3><p data-i18n="steps.s1.desc">إرسال الاسم المقترح للشركة (يفضل إرسال أكثر من اسم) لزيادة فرص الموافقة بسرعة.</p></div></div>
-          <div class="step-card"><div class="step-number">2</div><div class="step-content"><h3 data-i18n="steps.s2.title">إرسال البيانات الأساسية</h3><p data-i18n="steps.s2.desc">بيانات المالك أو الشركاء، وطبيعة النشاط.</p></div></div>
-          <div class="step-card"><div class="step-number">3</div><div class="step-content"><h3 data-i18n="steps.s3.title">إرسال الوثائق المطلوبة</h3><p data-i18n="steps.s3.desc">نسخة جواز السفر، إثبات عنوان، معلومات أساسية عن النشاط، وبيانات الشركاء إذا وجدوا.</p></div></div>
-          <div class="step-card"><div class="step-number">4</div><div class="step-content"><h3 data-i18n="steps.s4.title">إعداد مستندات التأسيس</h3><p data-i18n="steps.s4.desc">نقوم بإعداد الملف القانوني وتجهيز مستندات الشركة.</p></div></div>
-          <div class="step-card"><div class="step-number">5</div><div class="step-content"><h3 data-i18n="steps.s5.title">تقديم الطلب رسمياً</h3><p data-i18n="steps.s5.desc">يتم التقديم إلى الجهات المختصة في قبرص.</p></div></div>
-          <div class="step-card"><div class="step-number">6</div><div class="step-content"><h3 data-i18n="steps.s6.title">صدور الشركة رسمياً</h3><p data-i18n="steps.s6.desc">بعد إتمام الإجراءات، تصدر الشركة بشكل قانوني ورسمي وتحصل على وثائقها الأساسية.</p></div></div>
+          <!-- Row 1: Steps 1-3 -->
+          <div class="step-row">
+            <div class="step-card">
+              <div class="step-number">1</div>
+              <div class="step-connector"></div>
+              <div class="step-content"><h3 data-i18n="steps.s1.title">إرسال الاسم المقترح</h3><p data-i18n="steps.s1.desc">إرسال الاسم المقترح للشركة (يفضل إرسال أكثر من اسم) لزيادة فرص الموافقة بسرعة.</p></div>
+            </div>
+            <div class="step-card">
+              <div class="step-number">2</div>
+              <div class="step-connector"></div>
+              <div class="step-content"><h3 data-i18n="steps.s2.title">إرسال البيانات الأساسية</h3><p data-i18n="steps.s2.desc">بيانات المالك أو الشركاء، وطبيعة النشاط.</p></div>
+            </div>
+            <div class="step-card">
+              <div class="step-number">3</div>
+              <div class="step-content"><h3 data-i18n="steps.s3.title">إرسال الوثائق المطلوبة</h3><p data-i18n="steps.s3.desc">نسخة جواز السفر، إثبات عنوان، معلومات أساسية عن النشاط، وبيانات الشركاء إذا وجدوا.</p></div>
+            </div>
+          </div>
+          <!-- Vertical connector between rows -->
+          <div class="step-row-connector"></div>
+          <!-- Row 2: Steps 4-6 -->
+          <div class="step-row">
+            <div class="step-card">
+              <div class="step-number">4</div>
+              <div class="step-connector"></div>
+              <div class="step-content"><h3 data-i18n="steps.s4.title">إعداد مستندات التأسيس</h3><p data-i18n="steps.s4.desc">نقوم بإعداد الملف القانوني وتجهيز مستندات الشركة.</p></div>
+            </div>
+            <div class="step-card">
+              <div class="step-number">5</div>
+              <div class="step-connector"></div>
+              <div class="step-content"><h3 data-i18n="steps.s5.title">تقديم الطلب رسمياً</h3><p data-i18n="steps.s5.desc">يتم التقديم إلى الجهات المختصة في قبرص.</p></div>
+            </div>
+            <div class="step-card step-card--final">
+              <div class="step-number">6</div>
+              <div class="step-content"><h3 data-i18n="steps.s6.title">صدور الشركة رسمياً</h3><p data-i18n="steps.s6.desc">بعد إتمام الإجراءات، تصدر الشركة بشكل قانوني ورسمي وتحصل على وثائقها الأساسية.</p></div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -432,7 +502,7 @@
     </section>
 
     <!-- 15. Security -->
-    <section id="security" class="section section-alt">
+    <section id="security" class="section section-alt security-section">
       <div class="container">
         <h2 class="section-title" data-i18n="security.title">الأمان والخصوصية</h2>
         <p class="section-intro" data-i18n="security.intro">بياناتك ومستنداتك تُعامل بسرية تامة وفق متطلبات حماية البيانات في الاتحاد الأوروبي.</p>
@@ -461,18 +531,6 @@
         <h2 class="section-title" data-i18n="consult.title">استشارة أولية مجانية</h2>
         <p class="section-intro" data-i18n="consult.intro">غير متأكد من الخطوة المناسبة؟ اطلب استشارة مجانية قبل البدء.</p>
         <a href="#contact" class="btn btn-accent" data-i18n="consult.cta">احجز استشارتك</a>
-      </div>
-    </section>
-
-    <!-- 18. Final CTA -->
-    <section id="final-cta" class="section cta-section cta-final">
-      <div class="container">
-        <h2 class="section-title" data-i18n="final.title">ابدأ شركتك الأوروبية من قبرص</h2>
-        <p class="section-intro" data-i18n="final.subtitle">€999 + VAT — شركة مسجّلة قانونياً في الاتحاد الأوروبي، مع 4 أشهر سكرتارية وعنوان مجاناً.</p>
-        <div class="hero-actions">
-          <a href="#contact" class="btn btn-accent" data-i18n="final.cta1">ابدأ التسجيل</a>
-          <a href="#consultation" class="btn btn-secondary" data-i18n="final.cta2">استشارة مجانية</a>
-        </div>
       </div>
     </section>
 
@@ -519,90 +577,69 @@
 
   <script src="js/i18n.js"></script>
   <script src="js/main.js"></script>
-  <script type="module">
-    import createGlobe from 'https://cdn.jsdelivr.net/npm/cobe@0.6.3/+esm';
-
-    function initGlobe() {
-      const canvas = document.getElementById('heroGlobe');
-      if (!canvas || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-      let phi = 0;
-      let width = 0;
-      let pointerDown = null;
-      let pointerDelta = 0;
-      let currentR = 0;
-
-      const onResize = () => { if (canvas) width = canvas.offsetWidth; };
-      window.addEventListener('resize', onResize);
-      onResize();
-
-      const globe = createGlobe(canvas, {
-        devicePixelRatio: 2,
-        width: width * 2,
-        height: width * 2,
-        phi: 0,
-        theta: 0.3,
-        dark: 1,
-        diffuse: 0.4,
-        mapSamples: 16000,
-        mapBrightness: 1.2,
-        baseColor: [0.12, 0.1, 0.04],
-        markerColor: [212/255, 175/255, 55/255],
-        glowColor: [0.18, 0.15, 0.05],
-        markers: [
-          { location: [35.1264, 33.4299], size: 0.12 },
-          { location: [25.2048, 55.2708], size: 0.08 },
-          { location: [24.7136, 46.6753], size: 0.07 },
-          { location: [51.5074, -0.1278], size: 0.06 },
-          { location: [55.7558, 37.6173], size: 0.05 },
-          { location: [19.0760, 72.8777], size: 0.05 },
-          { location: [40.7128, -74.0060], size: 0.06 },
-          { location: [41.0082, 28.9784], size: 0.05 },
-          { location: [30.0444, 31.2357], size: 0.06 },
-          { location: [33.8938, 35.5018], size: 0.04 },
-        ],
-        onRender: (state) => {
-          if (pointerDown === null) phi += 0.005;
-          state.phi = phi + currentR;
-          state.width = width * 2;
-          state.height = width * 2;
-        }
-      });
-
-      // Fade in after a short delay
-      setTimeout(() => { canvas.style.opacity = '1'; }, 300);
-
-      canvas.addEventListener('pointerdown', (e) => {
-        pointerDown = e.clientX - pointerDelta;
-        canvas.style.cursor = 'grabbing';
-      });
-      window.addEventListener('pointerup', () => {
-        pointerDown = null;
-        canvas.style.cursor = 'grab';
-      });
-      window.addEventListener('pointermove', (e) => {
-        if (pointerDown !== null) {
-          pointerDelta = e.clientX - pointerDown;
-          currentR = pointerDelta / 200;
-        }
-      });
-    }
-
-    // Wait for loader to finish before initializing globe
-    const loader = document.getElementById('pageLoader');
-    if (loader) {
-      const observer = new MutationObserver(() => {
-        if (loader.classList.contains('hidden')) {
-          observer.disconnect();
-          initGlobe();
-        }
-      });
-      observer.observe(loader, { attributes: true, attributeFilter: ['class'] });
-      // Fallback if loader already gone or removed
-      if (!document.body.classList.contains('loading')) initGlobe();
-    } else {
-      initGlobe();
-    }
+  <script>
+    // COBE Globe — lazy-loaded AFTER loader dismisses (no top-level import to block window.load)
+    (function() {
+      function initGlobe() {
+        var canvas = document.getElementById('heroGlobe');
+        if (!canvas || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        import('https://cdn.jsdelivr.net/npm/cobe@0.6.3/+esm').then(function(mod) {
+          var createGlobe = mod.default;
+          var phi = 0, width = 0, pointerDown = null, pointerDelta = 0, currentR = 0;
+          function onResize() { if (canvas) width = canvas.offsetWidth; }
+          window.addEventListener('resize', onResize);
+          onResize();
+          createGlobe(canvas, {
+            devicePixelRatio: 2, width: width * 2, height: width * 2,
+            phi: 0, theta: 0.3, dark: 1, diffuse: 0.4,
+            mapSamples: 16000, mapBrightness: 1.2,
+            baseColor: [0.12, 0.1, 0.04],
+            markerColor: [212/255, 175/255, 55/255],
+            glowColor: [0.18, 0.15, 0.05],
+            markers: [
+              { location: [35.1264, 33.4299], size: 0.12 },
+              { location: [25.2048, 55.2708], size: 0.08 },
+              { location: [24.7136, 46.6753], size: 0.07 },
+              { location: [51.5074, -0.1278], size: 0.06 },
+              { location: [55.7558, 37.6173], size: 0.05 },
+              { location: [19.0760, 72.8777], size: 0.05 },
+              { location: [40.7128, -74.0060], size: 0.06 },
+              { location: [41.0082, 28.9784], size: 0.05 },
+              { location: [30.0444, 31.2357], size: 0.06 },
+              { location: [33.8938, 35.5018], size: 0.04 },
+            ],
+            onRender: function(state) {
+              if (pointerDown === null) phi += 0.005;
+              state.phi = phi + currentR;
+              state.width = width * 2; state.height = width * 2;
+            }
+          });
+          setTimeout(function() { canvas.style.opacity = '1'; }, 300);
+          canvas.addEventListener('pointerdown', function(e) {
+            pointerDown = e.clientX - pointerDelta; canvas.style.cursor = 'grabbing';
+          });
+          window.addEventListener('pointerup', function() {
+            pointerDown = null; canvas.style.cursor = 'grab';
+          });
+          window.addEventListener('pointermove', function(e) {
+            if (pointerDown !== null) {
+              pointerDelta = e.clientX - pointerDown; currentR = pointerDelta / 200;
+            }
+          });
+        });
+      }
+      // Wait for loader to dismiss, then lazy-load COBE
+      var loader = document.getElementById('pageLoader');
+      if (loader) {
+        var obs = new MutationObserver(function() {
+          if (loader.classList.contains('hidden')) { obs.disconnect(); initGlobe(); }
+        });
+        obs.observe(loader, { attributes: true, attributeFilter: ['class'] });
+        if (!document.body.classList.contains('loading')) initGlobe();
+      } else {
+        initGlobe();
+      }
+    })();
   </script>
 </body>
 </html>

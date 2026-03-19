@@ -102,6 +102,13 @@ const translations = {
     // Timeline
     "timeline.title": "جاهزة خلال أسبوعين",
     "timeline.intro": "بعد استلام المعلومات والمستندات المطلوبة، يتم تسجيل الشركة خلال أسبوعين.",
+    "timeline.days_label": "يوم عمل",
+    "timeline.p1.title": "المراجعة والتحضير",
+    "timeline.p1.desc": "استلام المستندات، حجز الاسم، وتجهيز الملف القانوني",
+    "timeline.p2.title": "التقديم الرسمي",
+    "timeline.p2.desc": "تقديم مستندات التأسيس للجهات المختصة في قبرص",
+    "timeline.p3.title": "الإصدار والتسليم",
+    "timeline.p3.desc": "صدور الشركة رسمياً واستلام الوثائق الأساسية",
     "timeline.note": "إجراءات التأسيس تتم عبر الجهات المختصة في قبرص ضمن المسار الرسمي المعتاد.",
     "timeline.day1": "اليوم 1",
     "timeline.day14": "اليوم 14",
@@ -234,7 +241,7 @@ const translations = {
     "nav.cta": "Start Now",
 
     // Hero
-    "hero.badge": "Company Formation",
+    "hero.badge": "",
     "hero.title": "Your European Company, Incorporated from Cyprus — €999 + VAT",
     "hero.subtitle": "Legally registered in the EU within two weeks. No travel required. 4 months of secretarial services and registered address included.",
     "hero.cta1": "Register Now",
@@ -326,6 +333,13 @@ const translations = {
     // Timeline
     "timeline.title": "Ready in Two Weeks",
     "timeline.intro": "After receiving all required documents, registration is completed within approximately two weeks.",
+    "timeline.days_label": "Business Days",
+    "timeline.p1.title": "Review & Preparation",
+    "timeline.p1.desc": "Document collection, name reservation, and legal file preparation",
+    "timeline.p2.title": "Official Submission",
+    "timeline.p2.desc": "Filing incorporation documents with Cyprus authorities",
+    "timeline.p3.title": "Issuance & Delivery",
+    "timeline.p3.desc": "Official company issuance and delivery of essential documents",
     "timeline.note": "Incorporation is carried out through the competent authorities in Cyprus via the standard official process.",
     "timeline.day1": "Day 1",
     "timeline.day14": "Day 14",
@@ -453,10 +467,15 @@ function setLanguage(lang) {
   document.documentElement.lang = lang;
   document.documentElement.dir = dir;
 
-  // Update all translatable elements
+  // Update all translatable elements (skip hero.title — handled by typing animation)
   document.querySelectorAll('[data-i18n]').forEach(el => {
     const key = el.getAttribute('data-i18n');
     if (translations[lang] && translations[lang][key]) {
+      if (key === 'hero.title') {
+        // Never write text directly — store for typing animation
+        el.setAttribute('data-typed-text', translations[lang][key]);
+        return;
+      }
       if (el.tagName === 'INPUT' && el.type !== 'submit') {
         el.placeholder = translations[lang][key];
       } else {
@@ -473,6 +492,13 @@ function setLanguage(lang) {
 
   // Save preference
   localStorage.setItem('cyprus-lang', lang);
+
+  // Re-trigger hero typing only on manual language switch (not initial load)
+  if (typeof window.heroAnimationDone !== 'undefined' && window.heroAnimationDone) {
+    if (typeof window.typeHeroTitle === 'function') {
+      window.typeHeroTitle();
+    }
+  }
 }
 
 function getCurrentLang() {

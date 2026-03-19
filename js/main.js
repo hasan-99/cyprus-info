@@ -12,51 +12,99 @@ document.addEventListener('DOMContentLoaded', () => {
     };
   }
 
-  // ── Hero Typing Effect ──
+  // ── Smooth Hero Typing Effect ──
+  // Store original text so typing can work after GSAP clears it
+  let heroOriginalText = '';
+  const heroTitleEl = document.querySelector('.hero-title');
+  if (heroTitleEl) {
+    heroOriginalText = heroTitleEl.textContent;
+    // Clear text immediately so it never flashes on screen
+    heroTitleEl.textContent = '';
+  }
+
   function typeHeroTitle() {
     const heroTitle = document.querySelector('.hero-title');
     if (!heroTitle) return;
-    if (reducedMotion) {
-      heroTitle.style.opacity = '1';
-      return;
-    }
-    const fullText = heroTitle.textContent;
+
+    // Get text from data attribute (set by i18n) or stored original
+    const fullText = heroTitle.getAttribute('data-typed-text') || heroOriginalText;
+    if (!fullText) return;
+
     heroTitle.textContent = '';
     heroTitle.style.opacity = '1';
-    heroTitle.style.transition = 'none';
-    heroTitle.classList.add('typing-active');
-    let i = 0;
-    const speed = Math.max(20, Math.min(50, 1200 / fullText.length));
-    function type() {
-      if (i < fullText.length) {
-        heroTitle.textContent += fullText[i];
-        i++;
-        setTimeout(type, speed);
+    heroTitle.style.visibility = 'visible';
+
+    if (reducedMotion) {
+      heroTitle.textContent = fullText;
+      return;
+    }
+
+    // Wrap each character in a span
+    const chars = [];
+    for (const ch of fullText) {
+      if (ch === ' ') {
+        heroTitle.appendChild(document.createTextNode(' '));
       } else {
-        heroTitle.classList.remove('typing-active');
-        heroTitle.classList.add('typing-done');
+        const span = document.createElement('span');
+        span.className = 'char';
+        span.textContent = ch;
+        heroTitle.appendChild(span);
+        chars.push(span);
       }
     }
-    type();
+
+    // Add cursor
+    const cursor = document.createElement('span');
+    cursor.className = 'typing-cursor';
+    heroTitle.appendChild(cursor);
+
+    // Reveal characters smoothly
+    const delay = Math.max(18, Math.min(40, 1400 / chars.length));
+    chars.forEach((span, i) => {
+      setTimeout(() => span.classList.add('visible'), i * delay);
+    });
+
+    // Fade out cursor after done
+    setTimeout(() => cursor.classList.add('done'), chars.length * delay + 600);
+    setTimeout(() => cursor.remove(), chars.length * delay + 1200);
   }
+  window.typeHeroTitle = typeHeroTitle;
 
   // ── Hero Animation Entry Point ──
   function initHeroAnimation() {
     if (hasGSAP && !reducedMotion) {
-      const tl = gsap.timeline();
-      tl.to('.hero-badge', { y: 0, autoAlpha: 1, duration: 0.6, ease: 'power3.out' })
-        .to('.hero-title', { y: 0, autoAlpha: 1, duration: 0.8, ease: 'power3.out' }, '-=0.3')
-        .to('.hero-subtitle', { y: 0, autoAlpha: 1, duration: 0.7, ease: 'power3.out' }, '-=0.3')
-        .to('.hero-actions', { y: 0, autoAlpha: 1, duration: 0.6, ease: 'power3.out' }, '-=0.2')
-        .call(typeHeroTitle, null, '-=0.3');
+      const tl = gsap.timeline({
+        onComplete: () => { window.heroAnimationDone = true; }
+      });
+
+      // Title: slide up from blur, then trigger typing
+      tl.to('.hero-title', {
+        y: 0, autoAlpha: 1, scale: 1,
+        filter: 'blur(0px)',
+        duration: 1, ease: 'power4.out',
+        onComplete: typeHeroTitle
+      })
+      // Subtitle: smooth fade + slide
+      .to('.hero-subtitle', {
+        y: 0, autoAlpha: 1,
+        filter: 'blur(0px)',
+        duration: 0.8, ease: 'power3.out'
+      }, '-=0.4')
+      // CTA button: scale pop + glow
+      .to('.hero-actions', {
+        y: 0, autoAlpha: 1, scale: 1,
+        duration: 0.7, ease: 'back.out(1.4)'
+      }, '-=0.3');
     } else {
       // No GSAP fallback
       document.querySelectorAll('.hero-badge, .hero-title, .hero-subtitle, .hero-actions').forEach(el => {
         el.style.opacity = '1';
         el.style.visibility = 'visible';
         el.style.transform = 'none';
+        el.style.filter = 'none';
       });
       typeHeroTitle();
+      window.heroAnimationDone = true;
     }
   }
 
@@ -304,10 +352,19 @@ document.addEventListener('DOMContentLoaded', () => {
       loaderDone = true;
       loader.classList.add('hidden');
       document.body.classList.remove('loading');
-      loader.addEventListener('transitionend', () => {
+
+      let heroStarted = false;
+      function startHero() {
+        if (heroStarted) return;
+        heroStarted = true;
         loader.remove();
         initHeroAnimation();
-      }, { once: true });
+        if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh();
+      }
+
+      loader.addEventListener('transitionend', startHero, { once: true });
+      // Fallback: if transitionend never fires, force hero after 1.5s
+      setTimeout(startHero, 1500);
     };
 
     const minTime = 3200;
@@ -669,77 +726,187 @@ document.addEventListener('DOMContentLoaded', () => {
     gsap.registerPlugin(ScrollTrigger);
 
     // Set initial hidden state for hero elements (GSAP controls visibility)
-    gsap.set('.hero-badge, .hero-title, .hero-subtitle, .hero-actions', {
-      autoAlpha: 0, y: 40
+    gsap.set('.hero-title, .hero-subtitle', {
+      autoAlpha: 0, y: 50, filter: 'blur(12px)'
+    });
+    gsap.set('.hero-title', { scale: 0.95 });
+    gsap.set('.hero-actions', {
+      autoAlpha: 0, y: 30, scale: 0.9
     });
 
     // Reduced motion: show everything immediately, skip all scroll animations
     if (reducedMotion) {
-      gsap.set('.hero-badge, .hero-title, .hero-subtitle, .hero-actions', {
-        autoAlpha: 1, y: 0
+      gsap.set('.hero-title, .hero-subtitle, .hero-actions', {
+        autoAlpha: 1, y: 0, scale: 1, filter: 'none'
       });
       return;
     }
 
-    // ── ScrollTrigger Section Entrances ──
-    const sectionEls = '.section-title, .section-intro, .callout, .disclaimer, .highlight-text, .section-note, .package-price, .contact-form, .form-trust, .timeline-bar';
+    // ── Scroll Animations (IntersectionObserver + GSAP tweens) ──
+    // Repeatable: animate IN when entering, reset when leaving
+    const isRTL = document.documentElement.dir === 'rtl';
 
-    document.querySelectorAll(sectionEls).forEach(el => {
-      // Skip hero section elements (handled by hero cascade)
+    function scrollAnimate(el, fromVars, toVars, delay) {
+      gsap.set(el, fromVars);
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            // Scrolled into view — animate in
+            gsap.killTweensOf(el);
+            gsap.to(el, { ...toVars, delay: delay || 0 });
+          } else {
+            // Scrolled out of view — reset to hidden so it replays
+            gsap.killTweensOf(el);
+            gsap.set(el, fromVars);
+          }
+        });
+      }, { threshold: 0.08 });
+      obs.observe(el);
+    }
+
+    function scrollAnimateGroup(parent, selector, fromVars, toVars, stagger) {
+      const els = selector ? parent.querySelectorAll(selector) : Array.from(parent.children);
+      Array.from(els).forEach((el, i) => {
+        scrollAnimate(el, fromVars, toVars, (stagger || 0) * i);
+      });
+    }
+
+    // ── Section Titles — blur + slide up ──
+    document.querySelectorAll('.section-title').forEach(el => {
       if (el.closest('.hero-section')) return;
+      scrollAnimate(el,
+        { autoAlpha: 0, y: 30, filter: 'blur(8px)' },
+        { autoAlpha: 1, y: 0, filter: 'blur(0px)', duration: 0.8, ease: 'power2.out' }
+      );
+    });
 
-      gsap.from(el, {
-        y: 35,
-        autoAlpha: 0,
-        duration: 0.75,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: el,
-          start: 'top 88%',
-          once: true
-        }
+    // ── Section Text — fade up ──
+    document.querySelectorAll('.section-intro, .callout, .disclaimer, .highlight-text, .section-note').forEach(el => {
+      if (el.closest('.hero-section')) return;
+      scrollAnimate(el,
+        { autoAlpha: 0, y: 35 },
+        { autoAlpha: 1, y: 0, duration: 0.7, ease: 'power3.out' }
+      );
+    });
+
+    // ── Package Price — scale bounce ──
+    document.querySelectorAll('.package-price').forEach(el => {
+      scrollAnimate(el,
+        { autoAlpha: 0, y: 20, scale: 0.88 },
+        { autoAlpha: 1, y: 0, scale: 1, duration: 0.8, ease: 'back.out(1.4)' }
+      );
+    });
+
+    // ── Contact Form — slide up ──
+    document.querySelectorAll('.contact-form, .form-trust').forEach(el => {
+      scrollAnimate(el,
+        { autoAlpha: 0, y: 40 },
+        { autoAlpha: 1, y: 0, duration: 0.8, ease: 'power3.out' }
+      );
+    });
+
+    // ── Timeline Elements — fade up ──
+    document.querySelectorAll('.tl-visual, .tl-hero-number, .tl-progress').forEach(el => {
+      scrollAnimate(el,
+        { autoAlpha: 0, y: 30 },
+        { autoAlpha: 1, y: 0, duration: 0.7, ease: 'power3.out' }
+      );
+    });
+
+    // ── Feature Cards — staggered slide up + rotation ──
+    document.querySelectorAll('.features-grid').forEach(grid => {
+      scrollAnimateGroup(grid, null,
+        { autoAlpha: 0, y: 50, rotation: 2 },
+        { autoAlpha: 1, y: 0, rotation: 0, duration: 0.7, ease: 'power3.out' },
+        0.1
+      );
+    });
+
+    // ── Trust Items — slide from alternating sides ──
+    document.querySelectorAll('.trust-grid').forEach(grid => {
+      Array.from(grid.children).forEach((item, i) => {
+        const xVal = (i % 2 === 0) ? (isRTL ? 50 : -50) : (isRTL ? -50 : 50);
+        scrollAnimate(item,
+          { autoAlpha: 0, x: xVal },
+          { autoAlpha: 1, x: 0, duration: 0.6, ease: 'power2.out' },
+          i * 0.08
+        );
       });
     });
 
-    // ── Staggered Grid Reveals ──
-    const grids = '.features-grid, .audience-grid, .package-list, .trust-grid, .stepper, .faq-list';
-
-    document.querySelectorAll(grids).forEach(grid => {
-      const children = grid.children;
-      if (!children.length) return;
-
-      gsap.from(children, {
-        y: 30,
-        autoAlpha: 0,
-        duration: 0.6,
-        stagger: 0.08,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: grid,
-          start: 'top 88%',
-          once: true
-        }
-      });
+    // ── Audience Items — scale up bounce ──
+    document.querySelectorAll('.audience-grid').forEach(grid => {
+      scrollAnimateGroup(grid, null,
+        { autoAlpha: 0, scale: 0.8, y: 25 },
+        { autoAlpha: 1, scale: 1, y: 0, duration: 0.6, ease: 'back.out(1.2)' },
+        0.08
+      );
     });
 
-    // ── CTA Section Buttons/Actions ──
+    // ── Package Items — slide up staggered ──
+    document.querySelectorAll('.package-list').forEach(grid => {
+      scrollAnimateGroup(grid, null,
+        { autoAlpha: 0, y: 35 },
+        { autoAlpha: 1, y: 0, duration: 0.5, ease: 'power3.out' },
+        0.06
+      );
+    });
+
+    // ── Steps — staggered scale up per row ──
+    document.querySelectorAll('.step-row').forEach(row => {
+      scrollAnimateGroup(row, '.step-card',
+        { autoAlpha: 0, y: 30, scale: 0.9 },
+        { autoAlpha: 1, y: 0, scale: 1, duration: 0.65, ease: 'back.out(1.2)' },
+        0.15
+      );
+    });
+    // Row connector fade
+    document.querySelectorAll('.step-row-connector').forEach(el => {
+      scrollAnimate(el,
+        { autoAlpha: 0, scaleY: 0 },
+        { autoAlpha: 1, scaleY: 1, duration: 0.5, ease: 'power2.out' }
+      );
+    });
+
+    // ── FAQ Items — slide from right ──
+    document.querySelectorAll('.faq-list').forEach(grid => {
+      scrollAnimateGroup(grid, null,
+        { autoAlpha: 0, x: isRTL ? -40 : 40 },
+        { autoAlpha: 1, x: 0, duration: 0.55, ease: 'power2.out' },
+        0.07
+      );
+    });
+
+    // ── Timeline Phases — scale up staggered ──
+    document.querySelectorAll('.tl-phases').forEach(grid => {
+      scrollAnimateGroup(grid, null,
+        { autoAlpha: 0, y: 40, scale: 0.92 },
+        { autoAlpha: 1, y: 0, scale: 1, duration: 0.7, ease: 'power3.out' },
+        0.12
+      );
+    });
+
+    // ── CTA Buttons — bounce up ──
     document.querySelectorAll('.cta-section').forEach(cta => {
-      const els = cta.querySelectorAll('.btn, .hero-actions');
-      if (!els.length) return;
+      scrollAnimateGroup(cta, '.btn, .hero-actions',
+        { autoAlpha: 0, y: 25, scale: 0.9 },
+        { autoAlpha: 1, y: 0, scale: 1, duration: 0.6, ease: 'back.out(1.3)' },
+        0.1
+      );
+    });
 
-      gsap.from(els, {
-        y: 25,
-        autoAlpha: 0,
-        duration: 0.65,
-        stagger: 0.1,
-        ease: 'power3.out',
+    // ── Watermarks — parallax drift ──
+    document.querySelectorAll('.section-watermark, .tax-watermark').forEach(wm => {
+      gsap.fromTo(wm, { y: 30 }, {
+        y: -30,
         scrollTrigger: {
-          trigger: cta,
-          start: 'top 85%',
-          once: true
+          trigger: wm.closest('.section') || wm.parentElement,
+          start: 'top bottom', end: 'bottom top', scrub: 1.5
         }
       });
     });
+
+    // (No safety net needed — observer keeps running and replays animations)
 
     // ── Parallax Effects ──
     const heroGoldGlow = document.querySelector('.hero-glow--gold');
@@ -769,19 +936,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    // Parallax on tax watermark
-    const taxWatermark = document.querySelector('.tax-watermark');
-    if (taxWatermark) {
-      gsap.to(taxWatermark, {
-        y: -40,
-        scrollTrigger: {
-          trigger: '#tax',
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: 1
-        }
-      });
-    }
+    // (Tax watermark parallax handled by section watermarks block above)
 
     // ── Button Gold Ripple Effect ──
     document.querySelectorAll('.btn').forEach(btn => {
